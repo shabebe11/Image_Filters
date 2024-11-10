@@ -1,0 +1,42 @@
+function [twotone] = TwoTone(picture, colours, weighting)
+
+%TwoTone converts an image to only two colours
+
+%Input: 
+%picture: m-by-n-by-3 uint8 array representing an RGB image
+%colours: 1-by-2-by-3 uint8 array representing two RGB pixel colours using
+%in output image
+%weighting: 1-by-2-by-3 uint8 array representing two RGB pixel colours used
+%as weighting
+
+%Output: 
+% twotone: m-by-n-by-3 uint8 array reprsenting a two toned image
+
+%Author: Shuaib Al Khudairi
+
+%Obtains variables for the dimensions of the input array
+[row,column,layer] = size(picture);
+
+%Creates output array the same size as input array
+twotone = uint8(zeros(row,column,layer));
+
+%Nested for loop to go through each pixel
+for i = 1:row
+    for j = 1:column
+
+%Calculates the colour difference between pixel and the weighting colours        
+        dif_low = ColourDifference(picture(i,j,:), weighting(1,1,:));
+        dif_high = ColourDifference(picture(i,j,:), weighting(1,2,:));
+
+%Determines which weighting the pixel is closer to and gives each pixel its
+%repsective colour
+        if dif_low > dif_high         
+            twotone(i,j,:) = colours(1,2,:);
+        else         
+           twotone(i,j,:) = colours(1,1,:);
+           
+        end
+    end
+end
+
+end
