@@ -1,0 +1,23 @@
+function [inverted] = Invert(picture)
+
+%Invert converts an image to its opposite colours and returns the inverted
+%image
+
+%Input: 
+% picture: m-by-n-by-k uint8 array representing a RGB or greyscale image
+
+%Output: 
+% inverted: m-by-n-by-k uint8 array representing the invereted image
+
+%Author: Shuaib Al Khudairi
+
+%Obtains variables for the dimensions of the input array
+[row,column,layer] = size(picture);
+
+%Creates uint8 output array that is same size as input array
+inverted = uint8(zeros(row,column,layer)); 
+
+%Inverts all the values present in the image 
+inverted =  255 - picture;
+               
+end
