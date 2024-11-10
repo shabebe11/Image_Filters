@@ -1,0 +1,40 @@
+function [eucdif] = ColourDifference(arrone, arrtwo)
+
+%ColourDifference calculates the euclidean difference between respective
+%pixels in two arrays
+
+%Inputs:
+    %arrone: m-by-n-by-3 uint8 array representing one array of colours
+    %arrtwo: m-by-n-by-3 uint8 array representing a second array of colours
+
+%Output:
+    %eucdif: m-by-n array of double represeting the euclidean difference
+    %between respective pixels
+
+%Author: Shuaib Al Khudairi
+
+%Getting the dimensions for input arrays
+row = height(arrone);
+column = width(arrone);
+
+%Converts input arrays into double
+arrone = double(arrone);
+arrtwo = double(arrtwo);
+
+%Creates empty array for output
+eucdif = zeros(row,column);
+
+%Nested for loop to go through each pixel
+    for i = 1:row
+        for j = 1:column
+
+%Calculates differences between each point squared
+            d_red = ((arrtwo(i,j,1) - arrone(i,j,1))^2);
+            d_green = ((arrtwo(i,j,2) - arrone(i,j,2))^2);
+            d_blue = ((arrtwo(i,j,3) - arrone(i,j,3))^2);
+            
+%Squareroots the sum of each layers difference between the two respective pixels 
+            eucdif(i,j) = sqrt(d_red + d_green + d_blue);
+        end
+    end
+end
