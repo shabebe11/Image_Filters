@@ -1,0 +1,43 @@
+function [crysimg] = Crystallise(RGBimg, rowarr, colarr)
+
+%TwoTone converts an image to only two colours
+
+%Input: 
+%RGBimg: m-by-n-by-3 uint8 array representing an RGB image
+%rowarr: 1-by-n double array representing row co-ordinates of each crystal
+%colarr: 1-by-n double array representing column co-ordinates of each
+%crystal
+
+%Output: 
+%crysimg: m-by-n-by-3 uint8 array representing the crystallised image
+
+%Author: Shuaib Al Khudairi
+
+
+%Obtains variables for the dimensions of the RGB image array
+[row_RGB,column_RGB,layer] = size(RGBimg);
+
+%Creates zero array for the output 
+ crysimg = uint8(zeros(row_RGB,column_RGB,layer));
+
+
+%Nested for loop to go through each position of RGB image
+for i = 1:row_RGB
+     for j = 1:column_RGB
+
+%Gets position of the pixel for the RGB image
+        position = [i,j];
+
+%Finds closest crystal point to the point on the RGB image
+        [close_pos] = FindClosest(position,rowarr,colarr);
+
+%Changes colour of the pixel at the position to the colour at the
+        %crystal co-ordinate
+        crysimg(i,j,:) = RGBimg(close_pos(1,1),close_pos(1,2),:);
+        
+    end
+end
+
+
+
+end
