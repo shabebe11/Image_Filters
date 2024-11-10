@@ -1,0 +1,40 @@
+function [greypic] = Greyscale(picture)
+
+%Greyscale converts a RGB image to a greyscale version by  applying a ratio
+%of colours to each pixel.
+
+%Inputs: picture: m-by-n-by-3 uint8 array of a RGB image
+%Outputs: greypic: m-by-n-by-1 uint8 array of a greyscale image
+
+%Author: Shuaib Al Khudairi
+
+
+%Variables for amount of rows and columns for RGB image array
+row = height(picture);
+column = width(picture);
+
+%Converts array from uint8 to double
+picture = double(picture);
+
+%Creates empty array for greypic (output)
+greypic = zeros(row,column);
+
+%Creates a for loop to cycle through each row and each column 
+     for i = 1:row
+         for j = 1:column
+ 
+%Calculates the ratios of the red, green, and blue values of the RGB image
+            red = picture(i,j,1) * (3/9);
+             green = picture(i,j,2) * (5/9);
+             blue = picture(i,j,3) * (1/9);
+ 
+%Calculates greyscale pixel value for each pixel in the array
+             greypic(i,j) = (red + green + blue);
+        
+        end
+     end
+
+%Converts output array from double to uint8
+greypic = uint8(greypic);
+ 
+ end
