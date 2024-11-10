@@ -1,0 +1,50 @@
+function [closest] = FindClosest(position,rowarr,colarr)
+
+%FindClosest finds the closest pixel from given row and column
+%co-ordinates to a given position
+
+%Input: 
+%position: 1-by-2 double vector representing the position of a pixel
+%rowarr: 1-by-n double array representing row co-ordinates of a set of
+%pixels
+%colarr: 1-by-n double array representing column co-ordinates of a set of
+%pixels
+
+%Output: 
+% closest: 1-by-2 double vector representing position of closest pixel
+
+%Author: Shuaib Al Khudairi
+
+%Calculate the number co-ordinates given
+column = width(colarr);
+
+%Seperates position vector into its row and column value
+posrow = position(1,1);
+poscol = position(1,2);
+
+%Creates a empty array for values to go into
+d = zeros(1,column); 
+
+%for loop to go through each vaalue of rowarr and colarr
+for j= 1:column
+
+%finds distances between the rows and columns between position and
+%co-ordinate
+        d_row = ((rowarr(1,j) - posrow)^2);
+        d_col = ((colarr(1,j) - poscol)^2);
+
+%Finds total distance between row and co-ordinate
+        d(1,j) = sqrt(d_row + d_col);
+        
+
+end
+
+%Finds the co-ordinate that is closest to the position
+[~, min_pos] = min(d);
+
+%Outputs a vector containing the co-ordinates of the closest point to the
+%position input
+closest = [rowarr(1,min_pos),colarr(1,min_pos)];
+
+
+end
