@@ -1,0 +1,50 @@
+function [blur_img] = Blur(img, intensity)
+
+%Blur blurs the input image by finding the average of the pixel colours
+%surrounding each pixel
+
+%Input: 
+% img: m-by-n-by-k uint8 array representing a RGB or greyscale image
+% intensity: positive, odd, integer definining intensity of bluring
+
+%Output: 
+% blur_img: m-by-n-by-k uint8 array representing the blurred image
+
+%Author: Shuaib Al Khudairi
+
+%Obtains variables for the dimensions of the input array
+[row,column,layer] = size(img);
+
+%Creates output array which is the same size as input
+blur_img = uint8(zeros(row,column,layer));
+
+%Sets the range for each subarray around each element/pixel
+range = (intensity - 1) /2;
+
+%Creates a subarray that will be used extract subarray from the input array
+subarray = zeros(intensity);
+
+%Converts input from uint8 to double
+img = double(img);
+
+%Creates a nested for loop that loops through each pixel
+ for i = 1:row
+     for j = 1:column
+         for k = 1:layer
+
+ %Calculates the start and end row and column values to be taken from input
+            row_start = max(i-range,1);
+            row_end = min(i + range, row);
+            column_start = max(j - range,1);
+            column_end = min(j + range,column);
+
+ %Extracts intensity-by-intensity array from input to subarray
+            subarray = img(row_start:row_end, column_start:column_end,k);
+ %Calcutes the average of subarray makes it the value of same pixel in
+ %output array
+            blur_img(i,j,k) = round(mean(subarray,"all"));
+ 
+         end
+     end
+ end
+ end
