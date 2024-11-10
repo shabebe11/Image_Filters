@@ -1,0 +1,47 @@
+function [sketch_img] = Sketch(img, intensity)
+
+%Sketch takes an image and converts it into a sketch_like image by using
+%greyscale,inersion, and blurring
+
+%Input: 
+%img: m-by-n-by-k uint8 array representing a RGB or greyscale image
+%intensity: positive, odd, integer definining intensity of bluring
+
+%Output: 
+% sketch_img: m-by-n-by-k uint8 array representing the sketch_like image
+
+%Author: Shuaib Al Khudairi
+
+%Calculates number of layers from input array
+[~,~,layer] = size(img);
+
+%If input image is RGB use Greyscale function to convert it to greyscale
+if layer>1  
+    grey_img = Greyscale(img);
+%If image is already greyscale leave it as it is
+else
+    grey_img = img;
+end
+
+%Invert image and then Blur it
+img = Invert(grey_img);
+img = Blur(img, intensity);
+
+%Convert inverted, blurred, greyscale image and original greyscale image
+%to double
+img = double(img);
+grey_img = double(grey_img);
+
+%Creates a output array of zeros
+sketch_img = zeros(size(grey_img));
+
+%Calculates the array values when back image has value of les than 255
+sketch_img(grey_img<255) = (255 * img(grey_img<255)) ./ (255 - grey_img(grey_img<255));
+
+%Calculaates the array values when back image is equal to 255
+sketch_img(grey_img==255) = 255;
+
+%Convert sketch_img array from double to uint8
+sketch_img = uint8(sketch_img);
+
+end
